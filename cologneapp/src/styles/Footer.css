@@ -1,10 +1,11 @@
 .footer {
   margin-top: 18px;
-  background: #e10b0b;
+  background: var(--red);
   border-radius: 30px;
   padding: 16px 20px;
-  border: 8px solid #ffffff;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  border: 8px solid var(--border);
+  box-shadow: 0 18px 50px var(--shadow);
+  color: var(--onRed);
 }
 
 .footerInner {
@@ -18,17 +19,19 @@
 .footerLeft {
   display: grid;
   gap: 6px;
-  font-weight: 900;
 }
 
 .footerTitle {
   font-size: 18px;
+  font-weight: 900;
+  color: #ffffff;
 }
 
 .footerSub {
   font-size: 14px;
   opacity: 0.95;
   font-weight: 800;
+  color: #ffffff;
 }
 
 .radioWidget {
@@ -39,6 +42,7 @@
   border: 2px solid rgba(255, 255, 255, 0.25);
   border-radius: 22px;
   padding: 10px 12px;
+  color: var(--onRed);
 }
 
 .radioLogo {
