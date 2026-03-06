@@ -1,0 +1,63 @@
+.footer {
+  margin-top: 18px;
+  background: #e10b0b;
+  border-radius: 30px;
+  padding: 16px 20px;
+  border: 8px solid #ffffff;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+.footerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.footerLeft {
+  display: grid;
+  gap: 6px;
+  font-weight: 900;
+}
+
+.footerTitle {
+  font-size: 18px;
+}
+
+.footerSub {
+  font-size: 14px;
+  opacity: 0.95;
+  font-weight: 800;
+}
+
+.radioWidget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 22px;
+  padding: 10px 12px;
+}
+
+.radioLogo {
+  width: 120px;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+}
+
+.radioPlayer {
+  width: min(420px, 70vw);
+}
+
+@media (max-width: 720px) {
+  .radioPlayer {
+    width: min(520px, 92vw);
+  }
+
+  .radioLogo {
+    width: 100px;
+  }
+}
