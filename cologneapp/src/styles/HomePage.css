@@ -1,0 +1,37 @@
+.homePage {
+  padding: 24px;
+}
+
+.homeContainer {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px;
+  border-radius: 44px;
+
+  background: var(--panel);
+  border: 8px solid var(--homeBorder);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+
+  color: var(--text);
+}
+
+.introBox {
+  color: var(--text);
+}
+
+.introTitle {
+  margin: 0 0 14px 0;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.introText {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  line-height: 1.55;
+  opacity: 0.95;
+}
+
+.introText:last-child {
+  margin-bottom: 0;
+}
