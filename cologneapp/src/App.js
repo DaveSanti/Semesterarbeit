@@ -1,69 +1,61 @@
+// App.js
 import React, { useMemo, useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "./App.css";
+import "./styles/LoginPage.css";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import WeatherPage from "./pages/WeatherPage";
 
+/*
+  LoginPage ist die einzige Seite, die ohne Login erreichbar ist.
+  Hier wird nur ein Name abgefragt und anschließend im Local Storage gespeichert.
+*/
 function LoginPage({ onLogin }) {
+  // Speichert den Namen aus dem Input Feld
   const [name, setName] = useState("");
 
   return (
-    <main style={{ padding: 24 }}>
-      <div style={{ maxWidth: 520, margin: "0 auto" }}>
-        <div style={{ background: "rgba(0,0,0,0.75)", borderRadius: 24, padding: 24, border: "2px solid rgba(255,255,255,0.12)" }}>
-          <h1 style={{ marginTop: 0, marginBottom: 10, fontSize: 42, fontWeight: 900 }}>
-            Willkommen!
-          </h1>
-          <p style={{ marginTop: 0, marginBottom: 18, opacity: 0.9 }}>
-            Bitte melde dich an, um auf die vollst&auml;ndige App zugreifen zu k&ouml;nnen.
-          </p>
+    <main className="loginPage">
+      <section className="loginCard">
+        <h1 className="loginTitle">Willkommen!</h1>
 
-          <div style={{ display: "grid", gap: 8 }}>
-            <label htmlFor="name" style={{ fontWeight: 800, opacity: 0.9 }}>
-              Nutzername
-            </label>
-            <input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Zum Beispiel Susanne"
-              style={{
-                padding: "12px 14px",
-                borderRadius: 16,
-                border: "2px solid rgba(255,255,255,0.12)",
-                background: "rgba(255,255,255,0.06)",
-                color: "white",
-                outline: "none",
-              }}
-            />
-          </div>
+        <p className="loginText">
+          Bitte melde dich an, um auf die vollständige App zugreifen zu können.
+        </p>
 
-          <button
-            type="button"
-            onClick={() => onLogin(name.trim() || "Gast")}
-            style={{
-              marginTop: 16,
-              padding: "14px 18px",
-              borderRadius: 999,
-              border: 0,
-              background: "#e10b0b",
-              color: "white",
-              fontWeight: 900,
-              cursor: "pointer",
-              width: 180,
-            }}
-          >
-            Login
-          </button>
+        <div className="loginRow">
+          <label className="loginLabel" htmlFor="name">
+            Nutzername
+          </label>
+
+          <input
+            id="name"
+            className="loginInput"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Zum Beispiel Susanne"
+          />
         </div>
-      </div>
+
+        <button
+          className="loginBtn"
+          onClick={() => onLogin(name.trim() || "Gast")}
+          type="button"
+        >
+          Login
+        </button>
+      </section>
     </main>
   );
 }
 
+/*
+  ProtectedRoute schützt Seiten.
+  Wenn man nicht eingeloggt ist, wird man automatisch zur Login Seite umgeleitet.
+*/
 function ProtectedRoute({ isAuthed, children }) {
   if (!isAuthed) return <Navigate to="/" replace />;
   return children;
@@ -72,6 +64,11 @@ function ProtectedRoute({ isAuthed, children }) {
 export default function App() {
   const navigate = useNavigate();
 
+  /*
+    User State:
+    Wir laden beim Start den User aus localStorage.
+    Falls nichts gespeichert ist, ist user null.
+  */
   const [user, setUser] = useState(() => {
     try {
       const raw = localStorage.getItem("cologne_user");
@@ -81,8 +78,14 @@ export default function App() {
     }
   });
 
+  // isAuthed ist true, sobald ein Name vorhanden ist
   const isAuthed = useMemo(() => Boolean(user?.name), [user]);
 
+  /*
+    Login Handler:
+    Speichert den User im State und im localStorage.
+    Danach Weiterleitung zur Startseite.
+  */
   const handleLogin = (name) => {
     const nextUser = { name };
     setUser(nextUser);
@@ -90,6 +93,10 @@ export default function App() {
     navigate("/home");
   };
 
+  /*
+    Logout Handler:
+    Löscht User Daten und geht zurück zur Login Seite.
+  */
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem("cologne_user");
@@ -98,12 +105,20 @@ export default function App() {
 
   return (
     <div className="appShell">
+      {/* Navbar bleibt immer sichtbar und enthält Dropdown, Theme Switch und Login Logout */}
       <Navbar isAuthed={isAuthed} user={user} onLogout={handleLogout} />
 
+      {/* Routing: nur / ist öffentlich, alles andere ist geschützt */}
       <Routes>
         <Route
           path="/"
-          element={isAuthed ? <Navigate to="/home" replace /> : <LoginPage onLogin={handleLogin} />}
+          element={
+            isAuthed ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <LoginPage onLogin={handleLogin} />
+            )
+          }
         />
 
         <Route
@@ -124,9 +139,14 @@ export default function App() {
           }
         />
 
-        <Route path="*" element={<Navigate to={isAuthed ? "/home" : "/"} replace />} />
+        {/* Fallback: unbekannte URL geht je nach Login Status zur passenden Seite */}
+        <Route
+          path="*"
+          element={<Navigate to={isAuthed ? "/home" : "/"} replace />}
+        />
       </Routes>
 
+      {/* Footer bleibt immer sichtbar, inklusive Radio Player */}
       <Footer />
     </div>
   );

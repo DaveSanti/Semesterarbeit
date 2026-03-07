@@ -1,3 +1,7 @@
+/* src/styles/Footer.css
+   Unveraendert, nutzt weiterhin Variablen
+*/
+
 .footer {
   margin-top: 18px;
   background: var(--red);
