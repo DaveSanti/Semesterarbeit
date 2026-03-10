@@ -22,13 +22,12 @@ function parseClubs(md) {
   return clubs;
 }
 
-// build the <ul> from club data
 function buildClubList(clubs) {
   const ul = document.getElementById('clubList');
   clubs.forEach(c => {
     const li = document.createElement('li');
     const a = document.createElement('a');
-    a.href = 'SportvereineIndex.html';
+    a.href = 'src/pages/SportvereineIndex.html';
     a.className = 'w3-bar-item w3-button';
     a.textContent = c.name;
     a.dataset.sport = c.details[0] || '';
@@ -38,15 +37,13 @@ function buildClubList(clubs) {
   });
 }
 
-// load the clubs file and populate the list when the page is ready
 function loadClubs() {
-  // if inline markdown is present, use that (allows file:// browsing)
   const inline = document.getElementById('clubMd');
   if (inline) {
     const md = inline.textContent || '';
     const clubs = parseClubs(md);
     buildClubList(clubs);
-    filterBySport(''); // show all
+    filterBySport(''); 
     return;
   }
 
@@ -58,7 +55,7 @@ function loadClubs() {
     .then(md => {
       const clubs = parseClubs(md);
       buildClubList(clubs);
-      filterBySport(''); // show all
+      filterBySport(''); 
     })
     .catch(err => {
       console.error('failed to load clubs', err);
@@ -92,7 +89,6 @@ const sports = [
   'Volleyball', 'Voltigieren', 'Walking', 'Wandern', 'Wasserball', 'Wassergymnastik', 'Wintersport', 'Yoga', 'Zumba'
 ];
 
-// Generate sport dropdown items
 const sportDropdown = document.getElementById('sportDropdown');
 sports.forEach(sport => {
   const link = document.createElement('a');
@@ -103,7 +99,6 @@ sports.forEach(sport => {
   sportDropdown.appendChild(link);
 });
 
-// call filterBySport('Fußball') to show only Fußball clubs
 function filterBySport(sport) {
   const links = document.querySelectorAll('ul li a.w3-bar-item.w3-button');
   links.forEach(a => {
@@ -118,7 +113,6 @@ function filterBySport(sport) {
   });
 }
 
-// wire dropdown choices to filtering (works with your <a value="..."> items)
 document.querySelectorAll('.w3-dropdown-content .w3-bar-item').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -127,7 +121,6 @@ document.querySelectorAll('.w3-dropdown-content .w3-bar-item').forEach(link => {
   });
 });
 
-// clicking a club shows its full details in the detail area
 const clubList = document.getElementById('clubList');
 if (clubList) {
   clubList.addEventListener('click', e => {
