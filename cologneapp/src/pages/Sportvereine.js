@@ -24,6 +24,17 @@ function parseClubs(md) {
 
 function buildClubList(clubs) {
   const ul = document.getElementById('clubList');
+  const districtList = ['Kalk','Nippes','Chorweiler','Rodenkirchen','Ehrenfeld','Lindenthal','Mülheim','Porz','Innenstadt'];
+  function guessDistrict(details) {
+    const text = details.join(' ').toLowerCase();
+    for (const d of districtList) {
+      if (text.includes(d.toLowerCase())) {
+        return d;
+      }
+    }
+    return '';
+  }
+
   clubs.forEach(c => {
     const li = document.createElement('li');
     const a = document.createElement('a');
@@ -31,6 +42,8 @@ function buildClubList(clubs) {
     a.className = 'w3-bar-item w3-button';
     a.textContent = c.name;
     a.dataset.sport = c.details[0] || '';
+    // compute bezirk from details if possible
+    a.dataset.bezirk = guessDistrict(c.details) || '';
     a.dataset.info = c.details.join(' | ');
     li.appendChild(a);
     ul.appendChild(li);
@@ -43,7 +56,9 @@ function loadClubs() {
     const md = inline.textContent || '';
     const clubs = parseClubs(md);
     buildClubList(clubs);
-    filterBySport(''); 
+    selectedSport = '';
+    selectedBezirk = '';
+    filterClubs(); 
     return;
   }
 
@@ -55,7 +70,9 @@ function loadClubs() {
     .then(md => {
       const clubs = parseClubs(md);
       buildClubList(clubs);
-      filterBySport(''); 
+      selectedSport = '';
+      selectedBezirk = '';
+      filterClubs(); 
     })
     .catch(err => {
       console.error('failed to load clubs', err);
@@ -99,25 +116,61 @@ sports.forEach(sport => {
   sportDropdown.appendChild(link);
 });
 
-function filterBySport(sport) {
+// districts list and dropdown population
+const bezirke = ['Alle Bezirke','Chorweiler','Ehrenfeld','Innenstadt' ,'Kalk','Lindenthal','Mülheim','Nippes','Porz','Rodenkirchen'];
+const bezirkDropdown = document.getElementById('bezirkDropdown');
+bezirke.forEach(bz => {
+  const link = document.createElement('a');
+  link.href = 'index.html';
+  link.className = 'w3-bar-item w3-button';
+  link.value = bz;
+  link.textContent = bz;
+  bezirkDropdown.appendChild(link);
+});
+
+// current selections
+let selectedSport = '';
+let selectedBezirk = '';
+
+function filterClubs() {
   const links = document.querySelectorAll('ul li a.w3-bar-item.w3-button');
   links.forEach(a => {
-    const itemSport = a.getAttribute('data-sport') || a.getAttribute('value') || '';
+    const itemSport = a.dataset.sport || '';
+    const itemBezirk = a.dataset.bezirk || '';
     const li = a.closest('li');
     if (!li) return;
 
-    const match = sport === 'Alle Sportarten' ||
-              sport === '' ||
-              itemSport.split(',').map(s=>s.trim()).includes(sport);
-              li.style.display = match ? '' : 'none';
+    const sportMatch = selectedSport === '' || selectedSport === 'Alle Sportarten' ||
+              itemSport.split(',').map(s=>s.trim()).includes(selectedSport);
+    const bezirkMatch = selectedBezirk === '' || selectedBezirk === 'Alle Bezirke' ||
+              itemBezirk === selectedBezirk;
+    li.style.display = (sportMatch && bezirkMatch) ? '' : 'none';
   });
 }
 
-document.querySelectorAll('.w3-dropdown-content .w3-bar-item').forEach(link => {
+// attach click handlers separately for sport and bezirk menus
+const sportLinks = document.querySelectorAll('#sportDropdown .w3-bar-item');
+sportLinks.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const chosen = link.getAttribute('value') || link.textContent.trim();
-    filterBySport(chosen);
+    selectedSport = chosen;
+    // update label button text
+    const btn = document.getElementById('sportButton');
+    if (btn) btn.textContent = chosen;
+    filterClubs();
+  });
+});
+
+const bezirkLinks = document.querySelectorAll('#bezirkDropdown .w3-bar-item');
+bezirkLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const chosen = link.getAttribute('value') || link.textContent.trim();
+    selectedBezirk = chosen;
+    const btn = document.getElementById('bezirkButton');
+    if (btn) btn.textContent = chosen;
+    filterClubs();
   });
 });
 

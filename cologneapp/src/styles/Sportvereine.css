@@ -28,6 +28,11 @@
     text-align: left;
 }
 
+#sportDropdown {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 .content-wrapper {
     display: flex;
     gap: 2rem;

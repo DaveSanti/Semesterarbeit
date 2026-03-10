@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-    <link rel="stylesheet" href="styles/Sportvereine.css">
-    <script src="pages/Sportvereine.js" defer></script>
+    <link rel="stylesheet" href="../styles/Sportvereine.css">
+    <script src="Sportvereine.js" defer></script>
     <title>Sport in Köln</title>
 </head>
 <body>
@@ -22,7 +22,7 @@
                                 <div class="form-column">
                                     <label for="sportart" class="w3-bar-item">Sportart:</label>
                                         <div class="w3-dropdown-hover">
-                                            <button class="w3-button w3-large">Alle Sportarten</button>
+                                            <button id="sportButton" class="w3-button w3-large">Alle Sportarten</button>
                                             <div id="sportDropdown" class="w3-dropdown-content w3-bar-block w3-border ">
                                             </div>
                                         </div>
@@ -30,13 +30,8 @@
                                 <div class="form-column">
                                     <label for="bezirke" class="w3-bar-item ">Bezirke:</label>
                                         <div class="w3-dropdown-hover">
-                                            <button class="w3-button w3-large">Alle Bezirke</button>
-                                            <div class="w3-dropdown-content w3-bar-block w3-border">
-                                                <a href="index.html" class="w3-bar-item w3-button" value="Alle Bezirke">Alle Bezirke</a>
-                                                <a href="index.html" class="w3-bar-item w3-button" value="Altstadt">Altstadt</a>
-                                                <a href="index.html" class="w3-bar-item w3-button" value="Nippes">Nippes</a>
-                                                <a href="index.html" class="w3-bar-item w3-button" value="Köln-Nord">Köln-Nord</a>
-                                                <a href="index.html" class="w3-bar-item w3-button" value="Südstadt">Südstadt</a>
+                                            <button class="w3-button w3-large" id="bezirkButton">Alle Bezirke</button>
+                                            <div id="bezirkDropdown" class="w3-dropdown-content w3-bar-block w3-border">
                                             </div>
                                         </div>
                                 </div>
