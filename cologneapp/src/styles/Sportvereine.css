@@ -1,0 +1,51 @@
+.header     {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+#clubList {
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#clubList li {
+    text-align: left;
+}
+
+.content-wrapper {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.clubs-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.map-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.map-column iframe {
+    width: 100%;
+    height: 480px;
+    border: 1px solid #ccc;
+}
