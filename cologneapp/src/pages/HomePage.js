@@ -11,7 +11,7 @@ export default function HomePage() {
           <p className="introText">
             Schön, dass du da bist. Diese App bündelt typische Köln Infos an einem Ort.
             Über das Wappen oben links öffnest du die Navigation und wechselst zu den
-            einzelnen Bereichen, zum Beispiel zum Wetter in Köln.
+            einzelnen Bereichen
           </p>
 
           <p className="introText">
@@ -22,7 +22,7 @@ export default function HomePage() {
 
           <p className="introText">
             Köln gehört zu den ältesten Städten Deutschlands. Die Stadt entstand in der
-            Römerzeit und wurde im Jahr 50 nach Christus zur römischen Kolonie erhoben.
+            Römerzeit und wurde im Jahr 50. nach Christus zur römischen Kolonie erhoben.
             Der Kölner Dom, eines der bekanntesten Wahrzeichen, wurde im Jahr 1248
             begonnen und prägt bis heute die Skyline.
           </p>

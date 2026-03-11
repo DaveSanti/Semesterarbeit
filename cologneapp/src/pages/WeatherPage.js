@@ -1,22 +1,13 @@
-// WeatherPage.js
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "./WeatherPage.css";
 
 import rainyImg from "../img/rainy.png";
 import cloudyImg from "../img/cloudy.png";
 import sunnyImg from "../img/sunny.png";
 
-/*
-  Aktualisierte Open Meteo URL
-  current enthaelt jetzt auch precipitation
-  showers wurde entfernt
-*/
 const URL =
   "https://api.open-meteo.com/v1/forecast?latitude=50.9333&longitude=6.95&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,sunshine_duration,rain_sum,wind_speed_10m_max,uv_index_max,daylight_duration&current=temperature_2m,rain,cloud_cover,relative_humidity_2m,wind_speed_10m,precipitation&timezone=Europe%2FBerlin";
 
-/*
-  Hilfsfunktionen fuer Anzeigeformate
-*/
 function formatTime(iso) {
   if (!iso) return "";
   const d = new Date(iso);
@@ -39,29 +30,24 @@ function secondsToHours(sec) {
   return `${Math.round(h * 10) / 10} h`;
 }
 
-/*
-  Auswahl des Hintergrundbilds fuer den Aktuell Bereich
-  Regen hat Prioritaet
-  Danach viele Wolken
-  Sonst sonnig
-*/
 function pickWeatherBg(current) {
-  const rain = Number(current?.rain ?? 0);
   const precipitation = Number(current?.precipitation ?? 0);
   const clouds = Number(current?.cloud_cover ?? 0);
 
-  if (rain > 0.05 || precipitation > 0.05) return "rainy";
+  if (precipitation > 0.05) return "rainy";
   if (clouds >= 60) return "cloudy";
   return "sunny";
 }
 
-/*
-  Aktuell Block
-  Hintergrundbild wird ueber style gesetzt
-*/
-function CurrentWeather({ data, bgUrl }) {
+function CurrentWeather({ data, bgUrl, now }) {
   const current = data?.current;
   const units = data?.current_units;
+
+  const liveTime = now.toLocaleTimeString("de-DE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
 
   return (
     <section
@@ -70,9 +56,12 @@ function CurrentWeather({ data, bgUrl }) {
       aria-label="Aktuelles Wetter"
     >
       <div className="weatherCurrentOverlay">
-        <h3 className="sectionTitle">Aktuell</h3>
-
         <div className="grid">
+          <div className="tile">
+            <div className="label">Uhrzeit</div>
+            <div className="value">{liveTime}</div>
+          </div>
+
           <div className="tile">
             <div className="label">Temperatur</div>
             <div className="value">
@@ -102,13 +91,6 @@ function CurrentWeather({ data, bgUrl }) {
           </div>
 
           <div className="tile">
-            <div className="label">Regen</div>
-            <div className="value">
-              {current?.rain} {units?.rain}
-            </div>
-          </div>
-
-          <div className="tile">
             <div className="label">Niederschlag</div>
             <div className="value">
               {current?.precipitation} {units?.precipitation}
@@ -120,10 +102,6 @@ function CurrentWeather({ data, bgUrl }) {
   );
 }
 
-/*
-  Tagesuebersicht Block
-  Daten werden in Zeilen fuer die Tabelle umgebaut
-*/
 function Forecast({ data }) {
   const daily = data?.daily;
 
@@ -185,38 +163,35 @@ function Forecast({ data }) {
 }
 
 export default function WeatherPage() {
-  // loading nur fuer die kurze Anzeige waehrend des Ladens
   const [loading, setLoading] = useState(false);
-
-  // data enthaelt die komplette API Antwort
   const [data, setData] = useState(null);
 
-  /*
-    API Aufruf beim ersten Rendern
-    Wenn es fehlschlaegt, bleibt data einfach null
-  */
+  const [now, setNow] = useState(new Date());
+
   useEffect(() => {
-    const controller = new AbortController();
-
-    async function load() {
-      setLoading(true);
-
-      try {
-        const res = await fetch(URL, { signal: controller.signal });
-        const json = await res.json();
-        setData(json);
-      } catch {
-        setData(null);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    load();
-    return () => controller.abort();
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
   }, []);
 
-  // Hintergrundbild Auswahl aus aktuellen Werten
+  const loadWeather = useCallback(async (signal) => {
+    setLoading(true);
+    try {
+      const res = await fetch(URL, { signal });
+      const json = await res.json();
+      setData(json);
+    } catch {
+      setData(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadWeather(controller.signal);
+    return () => controller.abort();
+  }, [loadWeather]);
+
   const bgKey = pickWeatherBg(data?.current);
 
   const bgUrl = useMemo(() => {
@@ -231,11 +206,7 @@ export default function WeatherPage() {
         <div className="weatherHeader">
           <h2 className="weatherTitle">Wetter in Köln</h2>
 
-          <button
-            className="weatherBtn"
-            type="button"
-            onClick={() => window.location.reload()}
-          >
+          <button className="weatherBtn" type="button" onClick={() => loadWeather()}>
             Aktualisieren
           </button>
         </div>
@@ -244,7 +215,7 @@ export default function WeatherPage() {
 
         {!loading && data && (
           <>
-            <CurrentWeather data={data} bgUrl={bgUrl} />
+            <CurrentWeather data={data} bgUrl={bgUrl} now={now} />
             <Forecast data={data} />
           </>
         )}
