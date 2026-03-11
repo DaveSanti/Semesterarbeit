@@ -148,8 +148,8 @@
 }
 
 .weatherCurrentOverlay {
-  padding: 100px;
-  background: rgba(0, 0, 0, 0.55);
+  padding: 150px;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .weatherCurrent .sectionTitle {
