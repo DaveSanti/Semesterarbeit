@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import "./WeatherPage.css";
+import "../styles/WeatherPage.css";
 
 import rainyImg from "../img/rainy.png";
 import cloudyImg from "../img/cloudy.png";

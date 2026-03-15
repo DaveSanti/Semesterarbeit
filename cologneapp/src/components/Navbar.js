@@ -67,7 +67,7 @@ export default function Navbar({ isAuthed, user, onLogout }) {
               </Link>
 
               <Link className="navItem" to="/weather" role="menuitem">
-                Wetter in Koeln
+                Wetter in Köln
               </Link>
 
               <Link className="navItem" to="/contact" role="menuitem">

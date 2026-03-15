@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="footerInner">
         <div className="footerLeft">
           <div className="footerTitle">Semesterarbeit WiSe 25/26</div>
-          <div className="footerSub">Von: David Golomb, Niklas Bär, Brian und Carlo</div>
+          <div className="footerSub">Von: David Golomb, Niklas Bär, Brian Thomsen und Carlo Ital</div>
         </div>
 
         <div className="radioWidget">
