@@ -4,3 +4,20 @@
   flex-direction: column;
   padding: 22px;
 }
+
+body.light {
+  --panel: #ffffff;
+  --border: #ffffff;
+  --text: #111111;
+
+  background: #f6f6f6;
+  --shadow: rgba(0, 0, 0, 0.35);
+}
+
+body.dark {
+  --panel: #1e1e1e;
+  --border: #3a3a3a;
+  --text: #ffffff;
+  background: #111111;
+  --shadow: rgba(255, 255, 255, 0.086);
+}

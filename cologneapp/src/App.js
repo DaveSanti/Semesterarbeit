@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import WeatherPage from "./pages/WeatherPage";
+import ContactPage from "./pages/ContactPage";
+import SettingsPage from "./pages/SettingsPage";
 
 /*
   LoginPage ist die einzige Seite, die ohne Login erreichbar ist.
@@ -135,6 +137,24 @@ export default function App() {
           element={
             <ProtectedRoute isAuthed={isAuthed}>
               <WeatherPage />
+            </ProtectedRoute>
+          }
+        />
+
+         <Route
+          path="/contact"
+          element={
+            <ProtectedRoute isAuthed={isAuthed}>
+              <ContactPage />
+            </ProtectedRoute>
+          }
+        />
+
+          <Route
+          path="/settings"
+          element={
+            <ProtectedRoute isAuthed={isAuthed}>
+              <SettingsPage/>
             </ProtectedRoute>
           }
         />

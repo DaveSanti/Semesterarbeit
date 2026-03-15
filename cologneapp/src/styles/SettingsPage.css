@@ -1,0 +1,114 @@
+/* SettingsPage.css */
+
+.settingsPage {
+  padding: 24px;
+}
+
+.settingsContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px;
+  border-radius: 44px;
+
+  background: var(--panel);
+  border: 8px solid var(--border);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+
+  color: var(--text);
+}
+
+.settingsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.settingsTitle {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+/* Formular */
+
+.settingsForm {
+  margin-top: 24px;
+  display: grid;
+  gap: 18px;
+}
+
+/* Input Gruppen */
+
+.settingsField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settingsLabel {
+  font-weight: 900;
+}
+
+/* Inputs */
+
+.settingsForm input,
+.settingsForm select {
+  padding: 10px 12px;
+  border-radius: 12px;
+
+  border: 2px solid rgba(0, 0, 0, 0.2);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Checkbox */
+
+.settingsCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+}
+
+/* Button */
+
+.settingsBtn {
+  margin-top: 10px;
+
+  background: var(--red);
+  color: #ffffff;
+
+  border: 0;
+  padding: 12px 18px;
+
+  border-radius: 999px;
+
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.settingsBtn:hover {
+  background: var(--redDark);
+}
+
+/* Erfolgsmeldung */
+
+.settingsMessage {
+  margin-top: 16px;
+  font-weight: 800;
+  opacity: 0.9;
+}
+
+/* Mobile */
+
+@media (max-width: 900px) {
+  .settingsContainer {
+    padding: 22px;
+  }
+
+  .settingsTitle {
+    font-size: 26px;
+  }
+}
