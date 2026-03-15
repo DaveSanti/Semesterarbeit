@@ -77,6 +77,11 @@ export default function Navbar({ isAuthed, user, onLogout }) {
               <Link className="navItem" to="/settings" role="menuitem">
                 Einstellungen
               </Link>
+            
+            <Link className="navItem" to="/FcKöln" role="menuitem">
+                1.FC Köln 
+              </Link>
+            
             </div>
           )}
         </div>

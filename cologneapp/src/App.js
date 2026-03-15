@@ -10,6 +10,7 @@ import HomePage from "./pages/HomePage";
 import WeatherPage from "./pages/WeatherPage";
 import ContactPage from "./pages/ContactPage";
 import SettingsPage from "./pages/SettingsPage";
+import FC from "./pages/FcPage";
 
 /*
   LoginPage ist die einzige Seite, die ohne Login erreichbar ist.
@@ -158,6 +159,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/FcKöln"
+          element={
+            <ProtectedRoute isAuthed={isAuthed}>
+              <FC />
+            </ProtectedRoute>
+          }
+          />
 
         {/* Fallback: unbekannte URL geht je nach Login Status zur passenden Seite */}
         <Route
